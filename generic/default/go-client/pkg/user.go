@@ -17,17 +17,31 @@
 
 package pkg
 
-import (
-	"time"
-)
+import "time"
 
 type User struct {
-	ID   string
+	Id   string
 	Name string
 	Age  int32
 	Time time.Time
 }
 
-func (u *User) JavaClassName() string {
+func (User) JavaClassName() string {
 	return "org.apache.dubbo.User"
+}
+
+type UserVo struct {
+	User User
+}
+
+func (UserVo) JavaClassName() string {
+	return "org.apache.dubbo.UserVo"
+}
+
+type Page struct {
+	Data []UserVo `hessian:"data"`
+}
+
+func (Page) JavaClassName() string {
+	return "org.apache.dubbo.Page"
 }

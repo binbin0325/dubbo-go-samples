@@ -2,7 +2,7 @@ module github.com/apache/dubbo-go-samples
 
 require (
 	dubbo.apache.org/dubbo-go/v3 v3.0.0-rc4-1
-	github.com/apache/dubbo-go-hessian2 v1.9.4-0.20210917102639-74a8ece5f3cb
+	github.com/apache/dubbo-go-hessian2 v1.9.3
 	github.com/dubbogo/gost v1.11.19
 	github.com/dubbogo/grpc-go v1.42.5-triple
 	github.com/dubbogo/triple v1.1.3

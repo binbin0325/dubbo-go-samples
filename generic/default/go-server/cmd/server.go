@@ -23,23 +23,21 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-)
 
-import (
 	"dubbo.apache.org/dubbo-go/v3/common/logger"
 	"dubbo.apache.org/dubbo-go/v3/config"
+
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
 
 	hessian "github.com/apache/dubbo-go-hessian2"
-)
-
-import (
 	"github.com/apache/dubbo-go-samples/generic/default/go-server/pkg"
 )
 
 // export DUBBO_GO_CONFIG_PATH= PATH_TO_SAMPLES/generic/default/go-server/conf/dubbogo.yml
 func main() {
 	hessian.RegisterPOJO(&pkg.User{})
+	hessian.RegisterPOJO(&pkg.Page{})
+	hessian.RegisterPOJO(&pkg.UserVo{})
 	config.SetProviderService(&pkg.User{})
 	if err := config.Load(); err != nil {
 		panic(err)

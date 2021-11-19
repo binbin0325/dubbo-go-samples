@@ -17,24 +17,31 @@
 
 package pkg
 
-import (
-	"time"
-)
-
-var userMap = map[string]*User{
-	"001": {"001", "other-zhangsan", 23, time.Date(1998, 1, 2, 3, 4, 5, 0, time.Local)},
-	"002": {"002", "other-lisi", 25, time.Date(1996, 1, 2, 3, 4, 5, 0, time.Local)},
-	"003": {"003", "other-lily", 28, time.Date(1993, 1, 2, 3, 4, 5, 0, time.Local)},
-	"004": {"004", "other-lisa", 36, time.Date(1985, 1, 2, 3, 4, 5, 0, time.Local)},
-}
+import "time"
 
 type User struct {
-	ID   string
+	Id   string
 	Name string
 	Age  int32
 	Time time.Time
 }
 
-func (u *User) JavaClassName() string {
+func (User) JavaClassName() string {
 	return "org.apache.dubbo.User"
+}
+
+type UserVo struct {
+	User User
+}
+
+func (UserVo) JavaClassName() string {
+	return "org.apache.dubbo.UserVo"
+}
+
+type Page struct {
+	Data []UserVo `hessian:"data"`
+}
+
+func (Page) JavaClassName() string {
+	return "org.apache.dubbo.Page"
 }

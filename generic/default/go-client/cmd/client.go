@@ -20,21 +20,15 @@ package main
 import (
 	"context"
 	"time"
-)
 
-import (
 	"dubbo.apache.org/dubbo-go/v3/common/logger"
 	"dubbo.apache.org/dubbo-go/v3/config"
 	"dubbo.apache.org/dubbo-go/v3/config/generic"
+
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
 	"dubbo.apache.org/dubbo-go/v3/protocol/dubbo"
 
 	hessian "github.com/apache/dubbo-go-hessian2"
-
-	tpconst "github.com/dubbogo/triple/pkg/common/constant"
-)
-
-import (
 	"github.com/apache/dubbo-go-samples/generic/default/go-client/pkg"
 )
 
@@ -44,196 +38,47 @@ const appName = "dubbo.io"
 func main() {
 	// register POJOs
 	hessian.RegisterPOJO(&pkg.User{})
+	hessian.RegisterPOJO(&pkg.Page{})
+	hessian.RegisterPOJO(&pkg.UserVo{})
 
 	// generic invocation samples using hessian serialization on Dubbo protocol
-	dubboRefConf := newRefConf("org.apache.dubbo.samples.UserProvider", dubbo.DUBBO)
+	dubboRefConf := newRefConf("org.apache.dubbo.UserProvider", dubbo.DUBBO)
 
 	callGetUser(dubboRefConf)
-	//callGetOneUser(dubboRefConf)
-	callGetUsers(dubboRefConf)
-	callGetUsersMap(dubboRefConf)
-	callQueryUser(dubboRefConf)
-	callQueryUsers(dubboRefConf)
-	//callQueryAll(dubboRefConf)
-
-	// generic invocation samples using hessian serialization on Triple protocol
-	tripleRefConf := newRefConf("org.apache.dubbo.samples.UserProviderTriple", tpconst.TRIPLE)
-	callGetUser(tripleRefConf)
-	//callGetOneUser(tripleRefConf)
-	callGetUsers(tripleRefConf)
-	callGetUsersMap(tripleRefConf)
-	callQueryUser(tripleRefConf)
-	callQueryUsers(tripleRefConf)
-	//callQueryAll(tripleRefConf)
-
 }
 
 func callGetUser(refConf config.ReferenceConfig) {
+	page := pkg.Page{
+		Data: []pkg.UserVo{
+			pkg.UserVo{
+				User: pkg.User{
+					Id:   "1000111",
+					Name: "user_name",
+					Age:  2,
+					Time: time.Now(),
+				},
+			},
+			pkg.UserVo{
+				User: pkg.User{
+					Id:   "1000",
+					Name: "user_name",
+					Age:  2,
+					Time: time.Now(),
+				},
+			},
+		},
+	}
 	resp, err := refConf.GetRPCService().(*generic.GenericService).Invoke(
 		context.TODO(),
 		"GetUser1",
-		[]string{"java.lang.String"},
-		[]hessian.Object{"A003"},
+		[]string{"org.apache.dubbo.Page"},
+		[]hessian.Object{page},
 	)
 
 	if err != nil {
 		panic(err)
 	}
 	logger.Infof("GetUser1(userId string) res: %+v", resp)
-
-	resp, err = refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"GetUser2",
-		[]string{"java.lang.String", "java.lang.String"},
-		[]hessian.Object{"A003", "lily"},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("GetUser2(userId string, name string) res: %+v", resp)
-
-	resp, err = refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"GetUser3",
-		[]string{"int"},
-		[]hessian.Object{1},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("GetUser3(userCode int) res: %+v", resp)
-
-	resp, err = refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"GetUser4",
-		[]string{"int", "java.lang.String"},
-		[]hessian.Object{1, "zhangsan"},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("GetUser4(userCode int, name string) res: %+v", resp)
-}
-
-// nolint
-func callGetOneUser(refConf config.ReferenceConfig) {
-	resp, err := refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"GetOneUser",
-		[]string{},
-		// TODO go-go []hessian.Object{}, go-java []string{}
-		[]hessian.Object{},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("GetOneUser() res: %+v", resp)
-}
-
-func callGetUsers(refConf config.ReferenceConfig) {
-	resp, err := refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"GetUsers",
-		[]string{"java.util.List"},
-		[]hessian.Object{
-			[]hessian.Object{
-				"001", "002", "003", "004",
-			},
-		},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("GetUsers1(userIdList []*string) res: %+v", resp)
-}
-
-func callGetUsersMap(refConf config.ReferenceConfig) {
-	resp, err := refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"GetUsersMap",
-		[]string{"java.util.List"},
-		[]hessian.Object{
-			[]hessian.Object{
-				"001", "002", "003", "004",
-			},
-		},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("GetUserMap(userIdList []*string) res: %+v", resp)
-}
-
-func callQueryUser(refConf config.ReferenceConfig) {
-	resp, err := refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"queryUser",
-		[]string{"org.apache.dubbo.User"},
-		// the map represents a User object:
-		// &User {
-		// 		ID: "3213",
-		// 		Name: "panty",
-		// 		Age: 25,
-		// 		Time: time.Now(),
-		// }
-		[]hessian.Object{
-			map[string]hessian.Object{
-				"iD":   "3213",
-				"name": "panty",
-				"age":  25,
-				"time": time.Now(),
-			}},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("queryUser(user *User) res: %+v", resp)
-}
-
-func callQueryUsers(refConf config.ReferenceConfig) {
-	var resp, err = refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"queryUsers",
-		[]string{"java.util.ArrayList"},
-		[]hessian.Object{
-			[]hessian.Object{
-				map[string]hessian.Object{
-					"id":    "3212",
-					"name":  "XavierNiu",
-					"age":   24,
-					"time":  time.Now().Add(4),
-					"class": "org.apache.dubbo.User",
-				},
-				map[string]hessian.Object{
-					"iD":    "3213",
-					"name":  "zhangsan",
-					"age":   21,
-					"time":  time.Now().Add(4),
-					"class": "org.apache.dubbo.User",
-				},
-			},
-		},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("queryUsers(users []*User) res: %+v", resp)
-}
-
-// nolint
-func callQueryAll(refConf config.ReferenceConfig) {
-	resp, err := refConf.GetRPCService().(*generic.GenericService).Invoke(
-		context.TODO(),
-		"queryAll",
-		[]string{},
-		// TODO go-go []hessian.Object{}, go-java []string{}
-		//[]hessian.Object{},
-		[]hessian.Object{},
-	)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("queryAll() res: %+v", resp)
 }
 
 func newRefConf(iface, protocol string) config.ReferenceConfig {
