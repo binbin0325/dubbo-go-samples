@@ -17,6 +17,7 @@
 
 package org.apache.dubbo;
 
+import org.apache.dubbo.rpc.RpcContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,8 @@ public class UserProviderImpl implements UserProvider {
 
     @Override
     public User GetUser1(Page<UserVo> pageUserVo) {
+        System.out.println(RpcContext.getServerAttachment());
+        System.out.println(RpcContext.getClientAttachment());
         List<UserVo> userVoList =  pageUserVo.getData();
         UserVo userVo = (UserVo) userVoList.toArray()[0];
         return userVo.getUser();

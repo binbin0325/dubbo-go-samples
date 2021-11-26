@@ -16,7 +16,7 @@ public class ChaosMatch {
         org.apache.dubbo.User user = (org.apache.dubbo.User)params.get("return");
 
         //获取放火标识
-        if(1!=param.get("hintCode")){
+        if(1!=params.get("hintCode")){
             return user;
         }
 
