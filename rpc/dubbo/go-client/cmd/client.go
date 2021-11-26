@@ -58,7 +58,7 @@ func main() {
 
 func test() {
 	logger.Infof("\n\n\nstart to test dubbo")
-	reqUser := &pkg.User{}
+	reqUser := pkg.User{}
 	reqUser.Id = "00111111"
 	reqUser.Name = "demo"
 	t := time.Now()

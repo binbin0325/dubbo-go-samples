@@ -75,7 +75,7 @@ type User struct {
 	TestSet         []string
 }
 
-func (u *User) JavaClassName() string {
+func (u User) JavaClassName() string {
 	return "org.apache.dubbo.User"
 }
 
@@ -90,5 +90,5 @@ func (ligoLastMsgInfo LigoLastMsgInfo) JavaClassName() string {
 }
 
 type UserProvider struct {
-	GetUser func(ctx context.Context, req *User) (*User, error)
+	GetUser func(ctx context.Context, req User) (*User, error) `dubbo:"GetUser"`
 }
