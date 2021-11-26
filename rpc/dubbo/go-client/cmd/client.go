@@ -19,17 +19,15 @@ package main
 
 import (
 	"context"
-)
-
-import (
-	"dubbo.apache.org/dubbo-go/v3/common/logger"
-	"dubbo.apache.org/dubbo-go/v3/config"
-	_ "dubbo.apache.org/dubbo-go/v3/imports"
+	"time"
 
 	hessian "github.com/apache/dubbo-go-hessian2"
-)
 
-import (
+	"dubbo.apache.org/dubbo-go/v3/common/logger"
+	"dubbo.apache.org/dubbo-go/v3/config"
+
+	_ "dubbo.apache.org/dubbo-go/v3/imports"
+
 	"github.com/apache/dubbo-go-samples/rpc/dubbo/go-client/pkg"
 )
 
@@ -37,13 +35,17 @@ var (
 	userProvider = &pkg.UserProvider{}
 )
 
-// need to setup environment variable "DUBBO_GO_CONFIG_PATH" to "conf/dubbogo.yml" before run
-func main() {
+func init() {
 	hessian.RegisterJavaEnum(pkg.Gender(pkg.MAN))
 	hessian.RegisterJavaEnum(pkg.Gender(pkg.WOMAN))
 	hessian.RegisterPOJO(&pkg.User{})
+	hessian.RegisterPOJO(&pkg.LigoLastMsgInfo{})
 
 	config.SetConsumerService(userProvider)
+}
+
+// need to setup environment variable "DUBBO_GO_CONFIG_PATH" to "conf/dubbogo.yml" before run
+func main() {
 
 	err := config.Load()
 	if err != nil {
@@ -55,66 +57,19 @@ func main() {
 }
 
 func test() {
-	logger.Infof("\n\n\necho")
-	res, err := userProvider.Echo(context.TODO(), "OK")
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("res: %v\n", res)
-
 	logger.Infof("\n\n\nstart to test dubbo")
 	reqUser := &pkg.User{}
-	reqUser.ID = "003"
+	reqUser.Id = "00111111"
+	reqUser.Name = "demo"
+	t := time.Now()
+	reqUser.Time = &t
+	reqUser.Params = map[string]string{"ss": "ss"}
+	reqUser.TestSet = []string{"xxxxxxx"}
+	reqUser.LigoLastMsgInfo = &pkg.LigoLastMsgInfo{MessageId: 1000, Text: "ligoLastMsgInfo", MessageTime: &t}
 	user, err := userProvider.GetUser(context.TODO(), reqUser)
 	if err != nil {
 		panic(err)
 	}
 	logger.Infof("response result: %v", user)
-
-	logger.Infof("\n\n\nstart to test dubbo - enum")
-	gender, err := userProvider.GetGender(1)
-	if err != nil {
-		logger.Infof("error: %v", err)
-	} else {
-		logger.Infof("response result: %v", gender)
-	}
-
-	logger.Infof("\n\n\nstart to test dubbo - GetUser0")
-	ret, err := userProvider.GetUser0("003", "Moorse")
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("response result: %v", ret)
-
-	logger.Infof("\n\n\nstart to test dubbo - GetUsers")
-	ret1, err := userProvider.GetUsers([]string{"002", "003"})
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("response result: %v", ret1)
-
-	logger.Infof("\n\n\nstart to test dubbo - getUser")
-
-	var i int32 = 1
-	_, err = userProvider.GetUser2(context.TODO(), i)
-	if err != nil {
-		panic(err)
-	}
-	logger.Infof("response result: %v", user)
-
-	logger.Infof("\n\n\nstart to test dubbo - getErr")
-	reqUser.ID = "003"
-	_, err = userProvider.GetErr(context.TODO(), reqUser)
-	if err == nil {
-		panic("err is nil")
-	}
-	logger.Infof("getErr - error: %v", err)
-
-	logger.Infof("\n\n\nstart to test dubbo illegal method")
-	reqUser.ID = "003"
-	_, err = userProvider.GetUser1(context.TODO(), reqUser)
-	if err == nil {
-		panic("err is nil")
-	}
-	logger.Infof("error: %v", err)
+	logger.Infof("response result: %v", user.LigoLastMsgInfo)
 }

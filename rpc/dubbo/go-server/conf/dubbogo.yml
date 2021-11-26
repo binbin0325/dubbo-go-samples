@@ -21,10 +21,6 @@ dubbo:
           - name: GetUser
             retries: 1
             loadbalance: random
-      ComplexProvider:
-        interface: org.apache.dubbo.ComplexProvider
-      WrapperArrayClassProvider:
-        interface: org.apache.dubbo.WrapperArrayClassProvider
   logger:
     zap-config:
       level: info

@@ -17,36 +17,7 @@
 
 package org.apache.dubbo;
 
-import java.util.List;
-import java.util.Map;
-
 public interface UserProvider {
 
-    boolean isLimit(Gender gender, String name);
-
-    User GetUser(String userId); // the first alpha is Upper case to compatible with golang.
-
-    List<User> GetUsers(List<String> userIdList);
-
-    void GetUser3();
-
-    User GetUser0(String userId, String name);
-
-	User GetErr(String userId) throws Exception;
-
-    Map<String, User> GetUserMap(List<String> userIdList);
-
-    User getUser(int usercode);
-
-    User getUser(int usercode, String name);
-
-    Integer GetGender(Integer gender);
-
-    User queryUser(User user);
-
-    Map<String, User> queryAll();
-
-    int Calc(int a, int b);
-
-    Response<Integer> Sum(int a, int b);
+    User GetUser(User user);
 }

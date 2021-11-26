@@ -18,9 +18,11 @@
 package org.apache.dubbo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
-public class User implements Serializable  {
+public class User implements Serializable {
+
+    private LigoLastMsgInfo ligoLastMsgInfo;
 
     private String id;
 
@@ -31,6 +33,10 @@ public class User implements Serializable  {
     private Date time = new Date();
 
     private Gender sex = Gender.MAN;
+
+    private Map<String, String> params = new HashMap<>();
+
+    protected Set<String> testSet = new LinkedHashSet<>();
 
     public User() {
     }
@@ -91,5 +97,17 @@ public class User implements Serializable  {
 
     public String toString() {
         return "User{id:" + id + ", name:" + name + ", age:" + age + ", time:" + time + ", gender:" + sex + "}";
+    }
+
+    public Map<String, String> getParams() {
+        return params;
+    }
+
+    public LigoLastMsgInfo getLigoLastMsgInfo() {
+        return ligoLastMsgInfo;
+    }
+
+    public void setLigoLastMsgInfo(LigoLastMsgInfo ligoLastMsgInfo) {
+        this.ligoLastMsgInfo = ligoLastMsgInfo;
     }
 }
