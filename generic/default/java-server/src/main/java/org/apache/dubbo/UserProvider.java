@@ -19,6 +19,6 @@ package org.apache.dubbo;
 
 public interface UserProvider {
 
-    User GetUser1(Page<UserVo> pageUserVo); // the first alpha is Upper case to compatible with golang.
+    int GetUser1(Page<UserVo> pageUserVo); // the first alpha is Upper case to compatible with golang.
 
 }

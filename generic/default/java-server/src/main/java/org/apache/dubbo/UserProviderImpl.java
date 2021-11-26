@@ -28,11 +28,11 @@ public class UserProviderImpl implements UserProvider {
     private static final Logger LOG = LoggerFactory.getLogger("userLogger"); // Output to com.dubbogo.user-server.log
 
     @Override
-    public User GetUser1(Page<UserVo> pageUserVo) {
+    public int GetUser1(Page<UserVo> pageUserVo) {
         System.out.println(RpcContext.getServerAttachment());
         System.out.println(RpcContext.getClientAttachment());
         List<UserVo> userVoList =  pageUserVo.getData();
         UserVo userVo = (UserVo) userVoList.toArray()[0];
-        return userVo.getUser();
+        return 22323;
     }
 }
