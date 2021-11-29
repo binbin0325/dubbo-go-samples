@@ -41,5 +41,8 @@ public class Provider {
         service.export();
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();
+
+       UserProvider up=new UserProviderImpl();
+       up.GetUser(new User());
     }
 }

@@ -66,7 +66,7 @@ func test() {
 	reqUser.Params = map[string]string{"ss": "ss"}
 	reqUser.TestSet = []string{"xxxxxxx"}
 	reqUser.LigoLastMsgInfo = &pkg.LigoLastMsgInfo{MessageId: 1000, Text: "ligoLastMsgInfo", MessageTime: &t}
-	user, err := userProvider.GetUser(context.TODO(), reqUser)
+	user, err := userProvider.GetUser(context.TODO(), &reqUser)
 	if err != nil {
 		panic(err)
 	}

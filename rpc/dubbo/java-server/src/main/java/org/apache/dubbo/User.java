@@ -20,9 +20,9 @@ package org.apache.dubbo;
 import java.io.Serializable;
 import java.util.*;
 
-public class User implements Serializable {
+public class User extends U implements Serializable {
 
-    private LigoLastMsgInfo ligoLastMsgInfo;
+
 
     private String id;
 
@@ -37,6 +37,8 @@ public class User implements Serializable {
     private Map<String, String> params = new HashMap<>();
 
     protected Set<String> testSet = new LinkedHashSet<>();
+
+    private LigoLastMsgInfo ligoLastMsgInfo;
 
     public User() {
     }

@@ -90,5 +90,5 @@ func (ligoLastMsgInfo LigoLastMsgInfo) JavaClassName() string {
 }
 
 type UserProvider struct {
-	GetUser func(ctx context.Context, req User) (*User, error) `dubbo:"GetUser"`
+	GetUser func(ctx context.Context, u *User) (*User, error) `dubbo:"GetUser"`
 }

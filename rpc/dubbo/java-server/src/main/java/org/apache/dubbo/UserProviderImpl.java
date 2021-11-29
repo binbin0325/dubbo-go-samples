@@ -18,11 +18,12 @@
 package org.apache.dubbo;
 
 
-public class UserProviderImpl implements UserProvider {
+public class UserProviderImpl  implements UserProvider {
 
     public UserProviderImpl() {
     }
-    public User GetUser(User user) {
+    public User GetUser(U u) {
+        User user=(User)u;
         return user;
     }
 
