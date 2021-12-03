@@ -19,8 +19,6 @@ package pkg
 
 import (
 	"context"
-	"fmt"
-
 	"dubbo.apache.org/dubbo-go/v3/config"
 
 	gxlog "github.com/dubbogo/gost/log"
@@ -33,24 +31,11 @@ func init() {
 type UserProvider struct {
 }
 
-func (u *UserProvider) getUser(userID string) (*User, error) {
-	if user, ok := userMap[userID]; ok {
-		return &user, nil
-	}
-
-	return nil, fmt.Errorf("invalid user id:%s", userID)
-}
-
 func (u *UserProvider) GetUser(ctx context.Context, req *User) (*User, error) {
 	var (
-		err  error
-		user *User
+		err error
 	)
 
 	gxlog.CInfo("req:%#v", req)
-	user, err = u.getUser(req.ID)
-	if err == nil {
-		gxlog.CInfo("rsp:%#v", user)
-	}
-	return user, err
+	return req, err
 }

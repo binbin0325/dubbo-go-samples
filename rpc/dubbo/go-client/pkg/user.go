@@ -75,8 +75,16 @@ type User struct {
 	TestSet         []string
 }
 
-func (u User) JavaClassName() string {
+func (u *User) JavaClassName() string {
 	return "org.apache.dubbo.User"
+}
+
+func (u *User) JavaParamName() string {
+	return "org.apache.dubbo.U"
+}
+
+type UserProvider struct {
+	GetUser func(ctx context.Context, u *User) (int32, error) `dubbo:"GetUser"`
 }
 
 type LigoLastMsgInfo struct {
@@ -87,8 +95,4 @@ type LigoLastMsgInfo struct {
 
 func (ligoLastMsgInfo LigoLastMsgInfo) JavaClassName() string {
 	return "org.apache.dubbo.LigoLastMsgInfo"
-}
-
-type UserProvider struct {
-	GetUser func(ctx context.Context, u *User) (*User, error) `dubbo:"GetUser"`
 }

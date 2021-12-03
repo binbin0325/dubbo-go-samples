@@ -34,8 +34,4 @@
 		<!--<dubbo:parameter key="heartbeat" value="10000"/ -->
     </dubbo:reference>
 
-	<dubbo:reference registry="dubbogo" check="false" id="userProvider1" protocol="dubbo" version="2.0" interface="org.apache.dubbo.UserProvider">
-	</dubbo:reference>
-	<dubbo:reference registry="dubbogo" check="false" id="userProvider2" protocol="dubbo" version="2.0" group="as" interface="org.apache.dubbo.UserProvider">
-	</dubbo:reference>
 </beans>

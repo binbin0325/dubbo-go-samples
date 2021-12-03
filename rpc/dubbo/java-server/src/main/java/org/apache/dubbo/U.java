@@ -1,5 +1,5 @@
 package org.apache.dubbo;
 
-public class U {
-    private String name;
+public abstract class U {
+    private String zz;
 }

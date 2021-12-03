@@ -19,6 +19,7 @@ package main
 
 import (
 	"context"
+	"dubbo.apache.org/dubbo-go/v3/common/constant"
 	"time"
 
 	hessian "github.com/apache/dubbo-go-hessian2"
@@ -66,10 +67,16 @@ func test() {
 	reqUser.Params = map[string]string{"ss": "ss"}
 	reqUser.TestSet = []string{"xxxxxxx"}
 	reqUser.LigoLastMsgInfo = &pkg.LigoLastMsgInfo{MessageId: 1000, Text: "ligoLastMsgInfo", MessageTime: &t}
-	user, err := userProvider.GetUser(context.TODO(), &reqUser)
+	var hintCode int32
+	hintCode = 1
+	atta := make(map[string]interface{})
+	atta["didi-trace.sys.didi-header-rid"] = "xsdsaf1123123123"
+	atta["trace"] = "123"
+	atta["hintCode"] = hintCode
+	reqContext := context.WithValue(context.Background(), constant.DubboCtxKey("attachment"), atta)
+	user, err := userProvider.GetUser(reqContext, &reqUser)
 	if err != nil {
 		panic(err)
 	}
 	logger.Infof("response result: %v", user)
-	logger.Infof("response result: %v", user.LigoLastMsgInfo)
 }

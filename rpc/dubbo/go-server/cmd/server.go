@@ -41,8 +41,6 @@ var (
 func main() {
 
 	// ------for hessian2------
-	hessian.RegisterJavaEnum(pkg.Gender(pkg.MAN))
-	hessian.RegisterJavaEnum(pkg.Gender(pkg.WOMAN))
 	hessian.RegisterPOJO(&pkg.User{})
 	config.SetProviderService(&pkg.UserProvider{})
 	// ------------
