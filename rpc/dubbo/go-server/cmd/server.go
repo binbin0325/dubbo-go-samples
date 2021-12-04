@@ -18,14 +18,13 @@
 package main
 
 import (
+	"dubbo.apache.org/dubbo-go/v3/common/logger"
+	"dubbo.apache.org/dubbo-go/v3/config"
 	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-
-	"dubbo.apache.org/dubbo-go/v3/common/logger"
-	"dubbo.apache.org/dubbo-go/v3/config"
 
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
 
@@ -37,9 +36,9 @@ var (
 	survivalTimeout = int(3e9)
 )
 
-// need to setup environment variable "DUBBO_GO_CONFIG_PATH" to "conf/dubbogo.yml" before run
+// need to setup environment variable "DUBBO_GO_CONFIG_PATH" to "conf/dubbogo.yaml" before run
 func main() {
-
+	//
 	// ------for hessian2------
 	hessian.RegisterPOJO(&pkg.User{})
 	config.SetProviderService(&pkg.UserProvider{})
@@ -48,7 +47,6 @@ func main() {
 	if err := config.Load(); err != nil {
 		panic(err)
 	}
-
 	initSignal()
 }
 

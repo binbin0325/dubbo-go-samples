@@ -17,18 +17,24 @@
 
 package org.apache.dubbo;
 
+
+import lombok.Data;
+
 import java.io.Serializable;
-import java.util.*;
+import java.util.List;
 
-public class User extends U implements Serializable {
+@Data
+public class User implements Serializable {
 
-    private int id;
+    private Integer id;
 
-    public int getId() {
-        return id;
-    }
+    private List<Integer> uids;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
 }
