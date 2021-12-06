@@ -31,11 +31,11 @@ func init() {
 type UserProvider struct {
 }
 
-func (u *UserProvider) GetUser(ctx context.Context, req *User) (*User, error) {
+func (u *UserProvider) GetUser(ctx context.Context, req *User) (int32, error) {
 	var (
 		err error
 	)
 
 	gxlog.CInfo("req:%#v", req)
-	return req, err
+	return req.Id, err
 }

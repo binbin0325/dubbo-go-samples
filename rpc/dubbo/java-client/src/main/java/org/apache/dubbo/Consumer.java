@@ -52,12 +52,12 @@ public class Consumer {
     private static void testGetUser() throws Exception {
         try {
             User user=new User();
-            user.setId(null);
+            user.setId(1);
             user.setUids(new ArrayList<>());
             user.getUids().add(null);
-            User user1 = userProvider.GetUser(user);
+            int id = userProvider.GetUser(user);
             System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] " +
-                    " UserInfo, ID:" + user1.getId());
+                    " UserInfo, ID:" + id);
 
             System.out.println("GetUser succ");
         } catch (Throwable e) {
