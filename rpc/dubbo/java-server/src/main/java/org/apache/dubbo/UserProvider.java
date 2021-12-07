@@ -19,5 +19,5 @@ package org.apache.dubbo;
 
 public interface UserProvider {
 
-    int GetUser(U u);
+    int GetUser(User user);
 }

@@ -22,8 +22,7 @@ public class UserProviderImpl  implements UserProvider {
 
     public UserProviderImpl() {
     }
-    public int GetUser(U u) {
-        User user=(User)u;
+    public int GetUser(User user) {
         return 123;
     }
 

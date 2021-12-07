@@ -20,6 +20,8 @@ package main
 import (
 	"context"
 	"dubbo.apache.org/dubbo-go/v3/common/constant"
+	"net/http"
+	"strconv"
 	"time"
 
 	hessian "github.com/apache/dubbo-go-hessian2"
@@ -52,12 +54,23 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	logger.Infof("\n\ntest")
-	test()
+	http.HandleFunc("/", HelloHandler)
+	http.ListenAndServe(":8000", nil)
+}
+func HelloHandler(w http.ResponseWriter, r *http.Request) {
+	hintCode := r.Header.Get("didi-trace.sys.didi-header-hint-code")
+	if hintCode == "" {
+		hintCode = "-100"
+	}
+	i, err := strconv.ParseInt(hintCode, 10, 32)
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+	test(r.Header.Get("didi-trace.sys.didi-header-rid"), int32(i))
 }
 
-func test() {
+func test(traceId string, hintCode int32) {
 	logger.Infof("\n\n\nstart to test dubbo")
 	reqUser := pkg.User{}
 	reqUser.Id = "00111111"
@@ -67,16 +80,15 @@ func test() {
 	reqUser.Params = map[string]string{"ss": "ss"}
 	reqUser.TestSet = []string{"xxxxxxx"}
 	reqUser.LigoLastMsgInfo = &pkg.LigoLastMsgInfo{MessageId: 1000, Text: "ligoLastMsgInfo", MessageTime: &t}
-	var hintCode int32
-	hintCode = 1
 	atta := make(map[string]interface{})
-	atta["didi-trace.sys.didi-header-rid"] = "xsdsaf1123123123"
-	atta["trace"] = "123"
-	atta["hintCode"] = hintCode
+	atta["didi-trace.sys.didi-header-rid"] = traceId
+	if hintCode != -100 {
+		atta["didi-trace.sys.didi-header-hint-code"] = hintCode
+	}
 	reqContext := context.WithValue(context.Background(), constant.DubboCtxKey("attachment"), atta)
 	user, err := userProvider.GetUser(reqContext, &reqUser)
 	if err != nil {
 		panic(err)
 	}
-	logger.Infof("response result: %v", user)
+	logger.Infof("result:", user)
 }

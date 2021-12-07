@@ -37,7 +37,7 @@ public class Provider {
         service.setRef(new UserProviderImpl());
         service.setProtocol(new ProtocolConfig(CommonConstants.DUBBO, 20010));
         service.setApplication(new ApplicationConfig("user-info-server"));
-        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        service.setRegistry(new RegistryConfig("nacos://127.0.0.1:8848"));
         service.export();
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();

@@ -18,9 +18,4 @@ require (
 	google.golang.org/protobuf v1.27.1
 )
 
-replace (
-	dubbo.apache.org/dubbo-go/v3 => /Users/didi/code/github/dubbo/dubbo-go
-	github.com/apache/dubbo-go-hessian2 => /Users/didi/code/github/dubbo/dubbo-go-hessian2
-)
-
 go 1.15
